@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { Marker } from '@/lib/types'
 
 interface SearchDialogProps {
   onSearchResult: (result: { name: string; coordinates: [number, number] }) => void
@@ -11,12 +12,7 @@ interface SearchDialogProps {
   onClose: () => void
 }
 
-type Place = {
-  name: string
-  coordinates: [number, number]
-}
-
-const mockPlaces: Place[] = [
+const mockPlaces: Marker[] = [
   { name: "New York", coordinates: [-74.006, 40.7128] },
   { name: "Los Angeles", coordinates: [-118.2437, 34.0522] },
   { name: "Chicago", coordinates: [-87.6298, 41.8781] },

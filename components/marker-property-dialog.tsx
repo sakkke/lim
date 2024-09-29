@@ -5,12 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
-interface Marker {
-  id: string;
-  name: string;
-  coordinates: [number, number];
-}
+import { Marker } from '@/lib/types'
 
 interface MarkerPropertyDialogProps {
   marker: Marker | null;
@@ -37,7 +32,7 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
   }
 
   const handleDelete = () => {
-    if (marker) {
+    if (marker && marker.id) {
       onDelete(marker.id)
     }
     onClose()

@@ -9,15 +9,10 @@ import { LoginDialogComponent } from './login-dialog'
 import { ReticleComponent } from './reticle'
 import { NewMarkerDialogComponent } from './new-marker-dialog'
 import { MarkerPropertyDialogComponent } from './marker-property-dialog'
+import { Marker } from '@/lib/types'
 
 // Set your Mapbox token here
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fra2tlIiwiYSI6ImNtMW4wMGp2dzBxNGQyanM4MTN6dml4b2sifQ.tt3AqCBM_tUCTJBf42BOwg'
-
-interface Marker {
-  id: string;
-  name: string;
-  coordinates: [number, number];
-}
 
 export function MapboxAppComponent() {
   const mapContainer = useRef<HTMLDivElement | null>(null)
