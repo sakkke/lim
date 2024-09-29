@@ -40,9 +40,9 @@ export default function UserPropertyDialog({ user, onClose, open: openProp }: Us
             <Input
               id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name"
               required
+              readOnly
             />
           </div>
         </div>
