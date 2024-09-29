@@ -20,7 +20,7 @@ export function MapboxAppComponent() {
   const mapContainer = useRef<HTMLDivElement | null>(null)
   const map = useRef<mapboxgl.Map | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
-  const [user, setUser] = useState<{ name: string } | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [loginOpen, setLoginOpen] = useState(false)
   const [markers, setMarkers] = useState<Marker[]>([])
   const [newOpen, setNewOpen] = useState(false)
