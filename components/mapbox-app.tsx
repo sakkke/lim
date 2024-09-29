@@ -98,9 +98,16 @@ export function MapboxAppComponent() {
     setSearchOpen(false)
   }
 
-  const handleLogin = (userData: { name: string; email: string }) => {
+  const handleLogin = async (userData: { name: string; email: string }) => {
     setUser(userData)
     console.log('User logged in:', userData)
+    const supabase = createClient()
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      },
+    })
   }
 
   const onCloseLogin = () => {
