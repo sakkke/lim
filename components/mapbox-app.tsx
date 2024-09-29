@@ -40,6 +40,33 @@ export function MapboxAppComponent() {
     })
   }, [])
 
+  useEffect(() => {
+    if (!map.current) return
+
+    // Remove existing markers
+    markers.forEach(marker => {
+      const el = document.getElementById(`marker-${marker.id}`)
+      if (el) el.remove()
+    })
+
+    // Add markers to the map
+    markers.forEach(marker => {
+      const el = document.createElement('div')
+      el.id = `marker-${marker.id}`
+      el.className = 'marker'
+      el.innerHTML = '<span style="font-size: 24px;">📍</span>'
+      el.style.cursor = 'pointer'
+
+      el.addEventListener('click', () => {
+        alert(`${marker.name}`)
+      })
+
+      new mapboxgl.Marker(el)
+        .setLngLat(marker.coordinates)
+        .addTo(map.current!)
+    })
+  }, [markers])
+
   const handleButtonClick = (buttonName: string) => {
     setActiveButton(activeButton === buttonName ? null : buttonName)
     // Here you can add specific functionality for each button
