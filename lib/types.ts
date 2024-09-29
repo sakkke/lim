@@ -4,3 +4,8 @@ export interface Marker {
   lng: number;
   lat: number;
 }
+
+export interface User {
+  name: string;
+  email: string;
+}

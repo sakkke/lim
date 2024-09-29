@@ -9,8 +9,9 @@ import { LoginDialogComponent } from './login-dialog'
 import { ReticleComponent } from './reticle'
 import { NewMarkerDialogComponent } from './new-marker-dialog'
 import { MarkerPropertyDialogComponent } from './marker-property-dialog'
-import { Marker } from '@/lib/types'
+import { Marker, User } from '@/lib/types'
 import { createClient } from '@/utils/supabase/client'
+import UserPropertyDialog from './user-property-dialog'
 
 // Set your Mapbox token here
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
@@ -25,6 +26,7 @@ export function MapboxAppComponent() {
   const [newOpen, setNewOpen] = useState(false)
   const [selectedMarker, setSelectedMarker] = useState<Marker | null>(null)
   const [lngLat, setLngLat] = useState<[number, number] | null>(null)
+  const [isUserDialogOpen, setIsUserDialogOpen] = useState(false)
 
   useEffect(() => {
     try {
@@ -35,6 +37,20 @@ export function MapboxAppComponent() {
       console.error(e)
       setLngLat([-74.5, 40])
     }
+
+    const setupUser = async () => {
+      const supabase = createClient()
+      try {
+        const { data: res } = await supabase.auth.getUser()
+        if (res.user) {
+          const { email, name } = res.user.user_metadata
+          setUser({ name, email })
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    setupUser()
   }, [])
 
   useEffect(() => {
@@ -109,7 +125,11 @@ export function MapboxAppComponent() {
         break
       case 'user':
         console.log('User button clicked')
-        setLoginOpen(true)
+        if (user) {
+          setIsUserDialogOpen(true)
+        } else {
+          setLoginOpen(true)
+        }
         break
     }
   }
@@ -182,6 +202,10 @@ export function MapboxAppComponent() {
     setMarkers(markers.filter(marker => marker.id !== markerId))
   }
 
+  const handleUpdateUser = (updatedUser: User) => {
+    setUser(updatedUser)
+  }
+
   return (
     <div className="h-screen w-full">
       <div ref={mapContainer} className="h-full w-full" />
@@ -195,6 +219,12 @@ export function MapboxAppComponent() {
         onClose={() => setSelectedMarker(null)}
         onUpdate={handleUpdateMarker}
         onDelete={handleDeleteMarker}
+      />
+      <UserPropertyDialog
+        user={user}
+        onClose={() => setIsUserDialogOpen(false)}
+        onUpdate={handleUpdateUser}
+        open={isUserDialogOpen}
       />
     </div>
   )

@@ -5,21 +5,19 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-
-interface User {
-  name: string;
-  email: string;
-}
+import { User } from '@/lib/types'
 
 interface UserPropertyDialogProps {
   user: User | null;
   onClose: () => void;
   onUpdate: (updatedUser: User) => void;
+  open: boolean;
 }
 
-export default function UserPropertyDialog({ user, onClose, onUpdate }: UserPropertyDialogProps) {
+export default function UserPropertyDialog({ user, onClose, onUpdate, open: openProp }: UserPropertyDialogProps) {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [open, setOpen] = useState(openProp)
 
   useEffect(() => {
     if (user) {
@@ -27,6 +25,10 @@ export default function UserPropertyDialog({ user, onClose, onUpdate }: UserProp
       setEmail(user.email)
     }
   }, [user])
+
+  useEffect(() => {
+    setOpen(openProp)
+  }, [openProp])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -39,7 +41,7 @@ export default function UserPropertyDialog({ user, onClose, onUpdate }: UserProp
   if (!user) return null
 
   return (
-    <Dialog open={!!user} onOpenChange={onClose}>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>User Profile</DialogTitle>
