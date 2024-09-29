@@ -27,6 +27,7 @@ export function MapboxAppComponent() {
   const [selectedMarker, setSelectedMarker] = useState<Marker | null>(null)
   const [lngLat, setLngLat] = useState<[number, number] | null>(null)
   const [isUserDialogOpen, setIsUserDialogOpen] = useState(false)
+  const [routeLayer, setRouteLayer] = useState<mapboxgl.Layer | null>(null)
 
   useEffect(() => {
     try {
@@ -134,11 +135,65 @@ export function MapboxAppComponent() {
     console.log(`user: ${user}`)
   }, [user])
 
+  useEffect(() => {
+    console.log(`routeLayer: ${routeLayer}`)
+  }, [routeLayer])
+
+  const getRoute = async (start: [number, number], end: [number, number]) => {
+    const query = await fetch(
+      `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`,
+      { method: 'GET' }
+    )
+    const json = await query.json()
+    const data = json.routes[0]
+    const route = data.geometry.coordinates
+    const geojson = {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'LineString',
+        coordinates: route
+      }
+    }
+
+    if (map.current?.getSource('route')) {
+      (map.current.getSource('route') as mapboxgl.GeoJSONSource).setData(geojson as any)
+    } else {
+      map.current?.addLayer({
+        id: 'route',
+        type: 'line',
+        source: {
+          type: 'geojson',
+          data: geojson as any
+        },
+        layout: {
+          'line-join': 'round',
+          'line-cap': 'round'
+        },
+        paint: {
+          'line-color': '#3887be',
+          'line-width': 5,
+          'line-opacity': 0.75
+        }
+      })
+      setRouteLayer(map.current?.getLayer('route') as mapboxgl.Layer)
+    }
+  }
+
+  const clearRoute = () => {
+    if (map.current?.getLayer('route')) {
+      map.current.removeLayer('route')
+      map.current.removeSource('route')
+      setRouteLayer(null)
+    }
+  }
+
   const handleButtonClick = (buttonName: string) => {
     // Here you can add specific functionality for each button
     switch (buttonName) {
       case 'search':
         console.log('Search button clicked')
+        clearRoute()
         setSearchOpen(true)
         break
       case 'plus':
@@ -162,6 +217,10 @@ export function MapboxAppComponent() {
         center: [result.lng, result.lat],
         zoom: 12
       })
+
+      if (lngLat) {
+        getRoute(lngLat, [result.lng, result.lat])
+      }
     }
   }
 
