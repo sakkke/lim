@@ -22,7 +22,6 @@ interface Marker {
 export function MapboxAppComponent() {
   const mapContainer = useRef<HTMLDivElement | null>(null)
   const map = useRef<mapboxgl.Map | null>(null)
-  const [activeButton, setActiveButton] = useState<string | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
   const [user, setUser] = useState<{ name: string; email: string } | null>(null)
   const [loginOpen, setLoginOpen] = useState(false)
@@ -70,7 +69,6 @@ export function MapboxAppComponent() {
   }, [markers])
 
   const handleButtonClick = (buttonName: string) => {
-    setActiveButton(activeButton === buttonName ? null : buttonName)
     // Here you can add specific functionality for each button
     switch (buttonName) {
       case 'search':
@@ -139,7 +137,7 @@ export function MapboxAppComponent() {
   return (
     <div className="h-screen w-full">
       <div ref={mapContainer} className="h-full w-full" />
-      <NavComponent activeButton={activeButton} onButtonClick={handleButtonClick} />
+      <NavComponent onButtonClick={handleButtonClick} />
       <SearchDialogComponent onSearchResult={handleSearchResult} open={searchOpen} onClose={onCloseSearch} />
       <LoginDialogComponent onLogin={handleLogin} open={loginOpen} onClose={onCloseLogin} />
       <ReticleComponent />

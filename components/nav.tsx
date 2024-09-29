@@ -5,15 +5,14 @@ import { MapPinPlus, Search, User } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
 interface NavProps {
-  activeButton: string | null
   onButtonClick: (buttonName: string) => void
 }
 
-export function NavComponent({ activeButton, onButtonClick }: NavProps) {
+export function NavComponent({ onButtonClick }: NavProps) {
   return (
     <div className="absolute top-4 left-4 z-10 bg-white rounded-md shadow-md">
       <Button
-        variant={activeButton === 'search' ? 'default' : 'ghost'}
+        variant="ghost"
         size="icon"
         onClick={() => onButtonClick('search')}
         className="rounded-r-none"
@@ -22,7 +21,7 @@ export function NavComponent({ activeButton, onButtonClick }: NavProps) {
         <span className="sr-only">Layers</span>
       </Button>
       <Button
-        variant={activeButton === 'plus' ? 'default' : 'ghost'}
+        variant="ghost"
         size="icon"
         onClick={() => onButtonClick('plus')}
         className="rounded-none border-x border-gray-200"
@@ -31,7 +30,7 @@ export function NavComponent({ activeButton, onButtonClick }: NavProps) {
         <span className="sr-only">Map Style</span>
       </Button>
       <Button
-        variant={activeButton === 'user' ? 'default' : 'ghost'}
+        variant="ghost"
         size="icon"
         onClick={() => onButtonClick('user')}
         className="rounded-l-none"
