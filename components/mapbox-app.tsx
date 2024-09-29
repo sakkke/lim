@@ -24,15 +24,28 @@ export function MapboxAppComponent() {
   const [markers, setMarkers] = useState<Marker[]>([])
   const [newOpen, setNewOpen] = useState(false)
   const [selectedMarker, setSelectedMarker] = useState<Marker | null>(null)
+  const [lngLat, setLngLat] = useState<[number, number] | null>(null)
+
+  useEffect(() => {
+    try {
+      navigator.geolocation.getCurrentPosition((position) => {
+        setLngLat([position.coords.longitude, position.coords.latitude])
+      })
+    } catch (e) {
+      console.error(e)
+      setLngLat([-74.5, 40])
+    }
+  }, [])
 
   useEffect(() => {
     if (map.current) return // initialize map only once
 
     if (!mapContainer.current) return
+    if (!lngLat) return
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-74.5, 40], // Default to New York
+      center: lngLat, // Default to New York
       zoom: 9
     })
 
@@ -50,7 +63,7 @@ export function MapboxAppComponent() {
       }
     }
     fetchMarkers()
-  }, [])
+  }, [lngLat])
 
   useEffect(() => {
     if (!map.current) return
