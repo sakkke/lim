@@ -35,6 +35,21 @@ export function MapboxAppComponent() {
       center: [-74.5, 40], // Default to New York
       zoom: 9
     })
+
+    const fetchMarkers = async () => {
+      const supabase = createClient()
+      try {
+        const { data: markers } = await supabase
+          .from('markers')
+          .select()
+        if (markers) {
+          setMarkers(markers)
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+    fetchMarkers()
   }, [])
 
   useEffect(() => {
