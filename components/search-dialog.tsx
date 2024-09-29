@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Marker } from '@/lib/types'
+import { createClient } from '@/utils/supabase/client'
 
 interface SearchDialogProps {
   onSearchResult: (result: { name: string; lng: number; lat: number }) => void
@@ -12,17 +13,9 @@ interface SearchDialogProps {
   onClose: () => void
 }
 
-const mockPlaces: Marker[] = [
-  { name: "New York", lng: -74.006, lat: 40.7128 },
-  { name: "Los Angeles", lng: -118.2437, lat: 34.0522 },
-  { name: "Chicago", lng: -87.6298, lat: 41.8781 },
-  { name: "Houston", lng: -95.3698, lat: 29.7604 },
-  { name: "Phoenix", lng: -112.0740, lat: 33.4484 },
-]
-
 export function SearchDialogComponent({ onSearchResult, open: openProp, onClose }: SearchDialogProps) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [results, setResults] = useState(mockPlaces)
+  const [results, setResults] = useState<Marker[] | null>(null)
   const [open, setOpen] = useState(openProp)
 
   useEffect(() => {
@@ -35,14 +28,20 @@ export function SearchDialogComponent({ onSearchResult, open: openProp, onClose 
     }
   }, [open])
 
-  const handleSearch = () => {
-    const filtered = mockPlaces.filter(place => 
-      place.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    setResults(filtered)
+  const handleSearch = async () => {
+    const supabase = createClient()
+    const { data: markers } = await supabase
+      .from('markers')
+      .select()
+    if (markers) {
+      const filtered = markers.filter(place => 
+        place.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ) as Marker[]
+      setResults(filtered)
+    }
   }
 
-  const handleSelect = (place: typeof mockPlaces[0]) => {
+  const handleSelect = (place: Marker) => {
     onSearchResult(place)
     setOpen(false)
   }
@@ -62,7 +61,7 @@ export function SearchDialogComponent({ onSearchResult, open: openProp, onClose 
           <Button onClick={handleSearch}>Search</Button>
         </div>
         <div className="mt-4 space-y-2">
-          {results.map((place) => (
+          {results && results.map((place) => (
             <Button
               key={place.name}
               variant="ghost"
