@@ -23,9 +23,6 @@ export function MapboxAppComponent() {
 
     // Add navigation control (zoom in/out)
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-right')
-
-    // Clean up on unmount
-    return () => map.current.remove()
   }, [])
 
   return (
