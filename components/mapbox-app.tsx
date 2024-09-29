@@ -63,7 +63,8 @@ export function MapboxAppComponent() {
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
       center: lngLat, // Default to New York
-      zoom: 9
+      zoom: 9,
+      language: 'ja'
     })
 
     const fetchMarkers = async () => {
