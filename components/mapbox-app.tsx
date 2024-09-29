@@ -10,6 +10,7 @@ import { ReticleComponent } from './reticle'
 import { NewMarkerDialogComponent } from './new-marker-dialog'
 import { MarkerPropertyDialogComponent } from './marker-property-dialog'
 import { Marker } from '@/lib/types'
+import { createClient } from '@/utils/supabase/client'
 
 // Set your Mapbox token here
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fra2tlIiwiYSI6ImNtMW4wMGp2dzBxNGQyanM4MTN6dml4b2sifQ.tt3AqCBM_tUCTJBf42BOwg'
@@ -114,16 +115,28 @@ export function MapboxAppComponent() {
     setLoginOpen(false)
   }
 
-  const handleAddMarker = (name: string) => {
+  const handleAddMarker = async (name: string) => {
     if (map.current) {
       const center = map.current.getCenter()
+      const supabase = createClient()
       const newMarker: Marker = {
-        id: Date.now().toString(),
         name,
         lng: center.lng,
         lat: center.lat
       }
-      setMarkers([...markers, newMarker])
+      try {
+        const { data: marker } = await supabase
+          .from('markers')
+          .insert([newMarker])
+          .select('id')
+          .limit(1)
+          .single()
+        if (marker) {
+          setMarkers([...markers, { ...newMarker, id: marker.id }])
+        }
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 
