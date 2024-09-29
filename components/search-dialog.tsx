@@ -49,6 +49,7 @@ export function SearchDialogComponent({ onSearchResult, open: openProp, onClose 
       .from('markers')
       .select()
       .ilike('name', `%${searchName}%`)
+      .limit(5)
 
     if (markers) {
       const filtered = markers.filter(place => 
