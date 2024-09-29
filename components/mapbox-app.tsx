@@ -79,6 +79,23 @@ export function MapboxAppComponent() {
       }
     }
     fetchMarkers()
+
+    const el = document.createElement('div')
+    el.id = 'marker-current'
+    el.className = 'marker'
+    el.innerHTML = `
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <span style="font-size: 24px;">📍</span>
+        <span style="background-color: white; border-radius: 4px; padding: 2px 4px; font-size: 12px; white-space: nowrap; margin-top: 2px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">Current</span>
+      </div>
+    `
+    el.style.cursor = 'pointer'
+
+    if (lngLat) {
+      new mapboxgl.Marker(el)
+        .setLngLat(lngLat)
+        .addTo(map.current!)
+    }
   }, [lngLat])
 
   useEffect(() => {
