@@ -13,7 +13,7 @@ import { Marker } from '@/lib/types'
 import { createClient } from '@/utils/supabase/client'
 
 // Set your Mapbox token here
-mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fra2tlIiwiYSI6ImNtMW4wMGp2dzBxNGQyanM4MTN6dml4b2sifQ.tt3AqCBM_tUCTJBf42BOwg'
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN!
 
 export function MapboxAppComponent() {
   const mapContainer = useRef<HTMLDivElement | null>(null)
