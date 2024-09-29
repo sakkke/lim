@@ -1,13 +1,14 @@
 'use client'
 
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useEffect, useState } from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Search } from 'lucide-react'
 
 interface SearchDialogProps {
   onSearchResult: (result: { name: string; coordinates: [number, number] }) => void
+  open: boolean
+  onClose: () => void
 }
 
 type Place = {
@@ -23,10 +24,20 @@ const mockPlaces: Place[] = [
   { name: "Phoenix", coordinates: [-112.0740, 33.4484] },
 ]
 
-export function SearchDialogComponent({ onSearchResult }: SearchDialogProps) {
+export function SearchDialogComponent({ onSearchResult, open: openProp, onClose }: SearchDialogProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState(mockPlaces)
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(openProp)
+
+  useEffect(() => {
+    setOpen(openProp)
+  }, [openProp])
+
+  useEffect(() => {
+    if (!open) {
+      onClose()
+    }
+  }, [open])
 
   const handleSearch = () => {
     const filtered = mockPlaces.filter(place => 
@@ -42,12 +53,6 @@ export function SearchDialogComponent({ onSearchResult }: SearchDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" className="w-[200px] justify-start">
-          <Search className="mr-2 h-4 w-4" />
-          Search places...
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Search Places</DialogTitle>
