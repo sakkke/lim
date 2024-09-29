@@ -8,12 +8,13 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fra2tlIiwiYSI6ImNtMW4wMGp2dzBxNGQyanM4MTN6dml4b2sifQ.tt3AqCBM_tUCTJBf42BOwg'
 
 export function MapboxAppComponent() {
-  const mapContainer = useRef(null)
-  const map = useRef(null)
+  const mapContainer = useRef<HTMLDivElement | null>(null)
+  const map = useRef<mapboxgl.Map | null>(null)
 
   useEffect(() => {
     if (map.current) return // initialize map only once
 
+    if (!mapContainer.current) return
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
