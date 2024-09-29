@@ -157,14 +157,14 @@ export function MapboxAppComponent() {
     }
 
     if (map.current?.getSource('route')) {
-      (map.current.getSource('route') as mapboxgl.GeoJSONSource).setData(geojson as any)
+      (map.current.getSource('route') as mapboxgl.GeoJSONSource).setData(geojson as GeoJSON.GeoJSON)
     } else {
       map.current?.addLayer({
         id: 'route',
         type: 'line',
         source: {
           type: 'geojson',
-          data: geojson as any
+          data: geojson as GeoJSON.GeoJSON
         },
         layout: {
           'line-join': 'round',
