@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Marker } from '@/lib/types'
 import { createClient } from '@/utils/supabase/client'
+import { debounceTime, Subject } from 'rxjs'
 
 interface SearchDialogProps {
   onSearchResult: (result: { name: string; lng: number; lat: number }) => void
@@ -17,6 +18,7 @@ export function SearchDialogComponent({ onSearchResult, open: openProp, onClose 
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState<Marker[] | null>(null)
   const [open, setOpen] = useState(openProp)
+  const [searchNameSubject] = useState(new Subject<string>())
 
   useEffect(() => {
     setOpen(openProp)
@@ -28,11 +30,26 @@ export function SearchDialogComponent({ onSearchResult, open: openProp, onClose 
     }
   }, [open])
 
-  const handleSearch = async () => {
+  useEffect(() => {
+    searchNameSubject
+      .pipe(
+        debounceTime(500)
+      ).subscribe((searchName) => {
+        handleSearch(searchName)
+      })
+  }, [searchNameSubject])
+
+  useEffect(() => {
+    searchNameSubject.next(searchTerm)
+  }, [searchNameSubject, searchTerm])
+
+  const handleSearch = async (searchName: string) => {
     const supabase = createClient()
     const { data: markers } = await supabase
       .from('markers')
       .select()
+      .ilike('name', `%${searchName}%`)
+
     if (markers) {
       const filtered = markers.filter(place => 
         place.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -58,7 +75,7 @@ export function SearchDialogComponent({ onSearchResult, open: openProp, onClose 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button onClick={handleSearch}>Search</Button>
+          <Button onClick={() => handleSearch(searchTerm)}>Search</Button>
         </div>
         <div className="mt-4 space-y-2">
           {results && results.map((place) => (
