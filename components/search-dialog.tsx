@@ -10,7 +10,12 @@ interface SearchDialogProps {
   onSearchResult: (result: { name: string; coordinates: [number, number] }) => void
 }
 
-const mockPlaces = [
+type Place = {
+  name: string
+  coordinates: [number, number]
+}
+
+const mockPlaces: Place[] = [
   { name: "New York", coordinates: [-74.006, 40.7128] },
   { name: "Los Angeles", coordinates: [-118.2437, 34.0522] },
   { name: "Chicago", coordinates: [-87.6298, 41.8781] },
