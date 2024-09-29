@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label"
 interface Marker {
   id: string;
   name: string;
-  description: string;
   coordinates: [number, number];
 }
 
@@ -22,19 +21,17 @@ interface MarkerPropertyDialogProps {
 
 export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDelete }: MarkerPropertyDialogProps) {
   const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
 
   useEffect(() => {
     if (marker) {
       setName(marker.name)
-      setDescription(marker.description)
     }
   }, [marker])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (marker) {
-      onUpdate({ ...marker, name, description })
+      onUpdate({ ...marker, name })
     }
     onClose()
   }
@@ -63,15 +60,6 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter marker name"
               required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Input
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter marker description"
             />
           </div>
           <div className="space-y-2">

@@ -8,6 +8,7 @@ import { SearchDialogComponent } from './search-dialog'
 import { LoginDialogComponent } from './login-dialog'
 import { ReticleComponent } from './reticle'
 import { NewMarkerDialogComponent } from './new-marker-dialog'
+import { MarkerPropertyDialogComponent } from './marker-property-dialog'
 
 // Set your Mapbox token here
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fra2tlIiwiYSI6ImNtMW4wMGp2dzBxNGQyanM4MTN6dml4b2sifQ.tt3AqCBM_tUCTJBf42BOwg'
@@ -27,6 +28,7 @@ export function MapboxAppComponent() {
   const [loginOpen, setLoginOpen] = useState(false)
   const [markers, setMarkers] = useState<Marker[]>([])
   const [newOpen, setNewOpen] = useState(false)
+  const [selectedMarker, setSelectedMarker] = useState<Marker | null>(null)
 
   useEffect(() => {
     if (map.current) return // initialize map only once
@@ -58,7 +60,7 @@ export function MapboxAppComponent() {
       el.style.cursor = 'pointer'
 
       el.addEventListener('click', () => {
-        alert(`${marker.name}`)
+        setSelectedMarker(marker)
       })
 
       new mapboxgl.Marker(el)
@@ -124,6 +126,16 @@ export function MapboxAppComponent() {
     setNewOpen(false)
   }
 
+  const handleUpdateMarker = (updatedMarker: Marker) => {
+    setMarkers(markers.map(marker => 
+      marker.id === updatedMarker.id ? updatedMarker : marker
+    ))
+  }
+
+  const handleDeleteMarker = (markerId: string) => {
+    setMarkers(markers.filter(marker => marker.id !== markerId))
+  }
+
   return (
     <div className="h-screen w-full">
       <div ref={mapContainer} className="h-full w-full" />
@@ -132,6 +144,12 @@ export function MapboxAppComponent() {
       <LoginDialogComponent onLogin={handleLogin} open={loginOpen} onClose={onCloseLogin} />
       <ReticleComponent />
       <NewMarkerDialogComponent onAddMarker={handleAddMarker} open={newOpen} onClose={onCloseNew} />
+      <MarkerPropertyDialogComponent
+        marker={selectedMarker}
+        onClose={() => setSelectedMarker(null)}
+        onUpdate={handleUpdateMarker}
+        onDelete={handleDeleteMarker}
+      />
     </div>
   )
 }
