@@ -20,7 +20,7 @@ export function MapboxAppComponent() {
   const mapContainer = useRef<HTMLDivElement | null>(null)
   const map = useRef<mapboxgl.Map | null>(null)
   const [searchOpen, setSearchOpen] = useState(false)
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null)
+  const [user, setUser] = useState<{ name: string } | null>(null)
   const [loginOpen, setLoginOpen] = useState(false)
   const [markers, setMarkers] = useState<Marker[]>([])
   const [newOpen, setNewOpen] = useState(false)
@@ -43,8 +43,8 @@ export function MapboxAppComponent() {
       try {
         const { data: res } = await supabase.auth.getUser()
         if (res.user) {
-          const { email, name } = res.user.user_metadata
-          setUser({ name, email })
+          const { name } = res.user.user_metadata
+          setUser({ name })
         }
       } catch (e) {
         console.error(e)
@@ -202,10 +202,6 @@ export function MapboxAppComponent() {
     setMarkers(markers.filter(marker => marker.id !== markerId))
   }
 
-  const handleUpdateUser = (updatedUser: User) => {
-    setUser(updatedUser)
-  }
-
   return (
     <div className="h-screen w-full">
       <div ref={mapContainer} className="h-full w-full" />
@@ -223,7 +219,6 @@ export function MapboxAppComponent() {
       <UserPropertyDialog
         user={user}
         onClose={() => setIsUserDialogOpen(false)}
-        onUpdate={handleUpdateUser}
         open={isUserDialogOpen}
       />
     </div>
