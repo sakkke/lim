@@ -95,7 +95,12 @@ export function MapboxAppComponent() {
       const el = document.createElement('div')
       el.id = `marker-${marker.id}`
       el.className = 'marker'
-      el.innerHTML = '<span style="font-size: 24px;">📍</span>'
+      el.innerHTML = `
+        <div style="display: flex; flex-direction: column; align-items: center;">
+          <span style="font-size: 24px;">📍</span>
+          <span style="background-color: white; border-radius: 4px; padding: 2px 4px; font-size: 12px; white-space: nowrap; margin-top: 2px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);">${marker.name}</span>
+        </div>
+      `
       el.style.cursor = 'pointer'
 
       el.addEventListener('click', () => {
