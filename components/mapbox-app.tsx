@@ -29,17 +29,14 @@ export function MapboxAppComponent() {
     setActiveButton(activeButton === buttonName ? null : buttonName)
     // Here you can add specific functionality for each button
     switch (buttonName) {
-      case 'layers':
-        console.log('Layers button clicked')
-        // Add layers functionality
+      case 'search':
+        console.log('Search button clicked')
         break
-      case 'map':
-        console.log('Map button clicked')
-        // Add map style switching functionality
+      case 'plus':
+        console.log('Plus button clicked')
         break
-      case 'navigation':
-        console.log('Navigation button clicked')
-        // Add navigation functionality
+      case 'user':
+        console.log('User button clicked')
         break
     }
   }

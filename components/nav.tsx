@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Layers, Map, Navigation } from 'lucide-react'
+import { MapPinPlus, Search, User } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
 interface NavProps {
@@ -13,30 +13,30 @@ export function NavComponent({ activeButton, onButtonClick }: NavProps) {
   return (
     <div className="absolute top-4 left-4 z-10 bg-white rounded-md shadow-md">
       <Button
-        variant={activeButton === 'layers' ? 'default' : 'ghost'}
+        variant={activeButton === 'search' ? 'default' : 'ghost'}
         size="icon"
-        onClick={() => onButtonClick('layers')}
+        onClick={() => onButtonClick('search')}
         className="rounded-r-none"
       >
-        <Layers className="h-4 w-4" />
+        <Search className="h-4 w-4" />
         <span className="sr-only">Layers</span>
       </Button>
       <Button
-        variant={activeButton === 'map' ? 'default' : 'ghost'}
+        variant={activeButton === 'plus' ? 'default' : 'ghost'}
         size="icon"
-        onClick={() => onButtonClick('map')}
+        onClick={() => onButtonClick('plus')}
         className="rounded-none border-x border-gray-200"
       >
-        <Map className="h-4 w-4" />
+        <MapPinPlus className="h-4 w-4" />
         <span className="sr-only">Map Style</span>
       </Button>
       <Button
-        variant={activeButton === 'navigation' ? 'default' : 'ghost'}
+        variant={activeButton === 'user' ? 'default' : 'ghost'}
         size="icon"
-        onClick={() => onButtonClick('navigation')}
+        onClick={() => onButtonClick('user')}
         className="rounded-l-none"
       >
-        <Navigation className="h-4 w-4" />
+        <User className="h-4 w-4" />
         <span className="sr-only">Navigation</span>
       </Button>
     </div>
