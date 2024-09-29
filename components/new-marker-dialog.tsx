@@ -1,20 +1,31 @@
 'use client'
 
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useEffect, useState } from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { MapPin } from 'lucide-react'
 
 interface NewMarkerDialogProps {
   onAddMarker: (name: string, description: string) => void
+  open: boolean
+  onClose: () => void
 }
 
-export function NewMarkerDialogComponent({ onAddMarker }: NewMarkerDialogProps) {
-  const [open, setOpen] = useState(false)
+export function NewMarkerDialogComponent({ onAddMarker, open: openProp, onClose }: NewMarkerDialogProps) {
+  const [open, setOpen] = useState(openProp)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
+
+  useEffect(() => {
+    setOpen(openProp)
+  }, [openProp])
+
+  useEffect(() => {
+    if (!open) {
+      onClose()
+    }
+  }, [open])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -26,12 +37,6 @@ export function NewMarkerDialogComponent({ onAddMarker }: NewMarkerDialogProps) 
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline">
-          <MapPin className="mr-2 h-4 w-4" />
-          Add Marker
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Add New Marker</DialogTitle>

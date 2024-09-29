@@ -7,9 +7,17 @@ import { NavComponent } from './nav'
 import { SearchDialogComponent } from './search-dialog'
 import { LoginDialogComponent } from './login-dialog'
 import { ReticleComponent } from './reticle'
+import { NewMarkerDialogComponent } from './new-marker-dialog'
 
 // Set your Mapbox token here
 mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fra2tlIiwiYSI6ImNtMW4wMGp2dzBxNGQyanM4MTN6dml4b2sifQ.tt3AqCBM_tUCTJBf42BOwg'
+
+interface Marker {
+  id: string;
+  name: string;
+  description: string;
+  coordinates: [number, number];
+}
 
 export function MapboxAppComponent() {
   const mapContainer = useRef<HTMLDivElement | null>(null)
@@ -18,6 +26,8 @@ export function MapboxAppComponent() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [user, setUser] = useState<{ name: string; email: string } | null>(null)
   const [loginOpen, setLoginOpen] = useState(false)
+  const [markers, setMarkers] = useState<Marker[]>([])
+  const [newOpen, setNewOpen] = useState(false)
 
   useEffect(() => {
     if (map.current) return // initialize map only once
@@ -41,6 +51,7 @@ export function MapboxAppComponent() {
         break
       case 'plus':
         console.log('Plus button clicked')
+        setNewOpen(true)
         break
       case 'user':
         console.log('User button clicked')
@@ -71,6 +82,23 @@ export function MapboxAppComponent() {
     setLoginOpen(false)
   }
 
+  const handleAddMarker = (name: string, description: string) => {
+    if (map.current) {
+      const center = map.current.getCenter()
+      const newMarker: Marker = {
+        id: Date.now().toString(),
+        name,
+        description,
+        coordinates: [center.lng, center.lat]
+      }
+      setMarkers([...markers, newMarker])
+    }
+  }
+
+  const onCloseNew = () => {
+    setNewOpen(false)
+  }
+
   return (
     <div className="h-screen w-full">
       <div ref={mapContainer} className="h-full w-full" />
@@ -78,6 +106,7 @@ export function MapboxAppComponent() {
       <SearchDialogComponent onSearchResult={handleSearchResult} open={searchOpen} onClose={onCloseSearch} />
       <LoginDialogComponent onLogin={handleLogin} open={loginOpen} onClose={onCloseLogin} />
       <ReticleComponent />
+      <NewMarkerDialogComponent onAddMarker={handleAddMarker} open={newOpen} onClose={onCloseNew} />
     </div>
   )
 }
