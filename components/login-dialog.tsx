@@ -1,16 +1,27 @@
 'use client'
 
-import { useState } from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useEffect, useState } from 'react'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { LogIn } from 'lucide-react'
 
 interface LoginDialogProps {
   onLogin: (userData: { name: string; email: string }) => void
+  open: boolean
+  onClose: () => void
 }
 
-export function LoginDialogComponent({ onLogin }: LoginDialogProps) {
-  const [open, setOpen] = useState(false)
+export function LoginDialogComponent({ onLogin, open: openProp, onClose }: LoginDialogProps) {
+  const [open, setOpen] = useState(openProp)
+
+  useEffect(() => {
+    setOpen(openProp)
+  }, [openProp])
+
+  useEffect(() => {
+    if (!open) {
+      onClose()
+    }
+  }, [open])
 
   const handleGoogleLogin = () => {
     // In a real application, this would initiate the Google OAuth flow
@@ -25,12 +36,6 @@ export function LoginDialogComponent({ onLogin }: LoginDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline">
-          <LogIn className="mr-2 h-4 w-4" />
-          Login
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Login</DialogTitle>
