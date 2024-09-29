@@ -68,6 +68,10 @@ export function MapboxAppComponent() {
     })
   }, [markers])
 
+  useEffect(() => {
+    console.log(`user: ${user}`)
+  }, [user])
+
   const handleButtonClick = (buttonName: string) => {
     // Here you can add specific functionality for each button
     switch (buttonName) {
