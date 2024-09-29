@@ -58,7 +58,7 @@ export function MapboxAppComponent() {
       })
 
       new mapboxgl.Marker(el)
-        .setLngLat(marker.coordinates)
+        .setLngLat([marker.lng, marker.lat])
         .addTo(map.current!)
     })
   }, [markers])
@@ -85,10 +85,10 @@ export function MapboxAppComponent() {
     }
   }
 
-  const handleSearchResult = (result: { name: string; coordinates: [number, number] }) => {
+  const handleSearchResult = (result: { name: string; lng: number; lat: number }) => {
     if (map.current) {
       map.current.flyTo({
-        center: result.coordinates,
+        center: [result.lng, result.lat],
         zoom: 12
       })
     }
@@ -113,7 +113,8 @@ export function MapboxAppComponent() {
       const newMarker: Marker = {
         id: Date.now().toString(),
         name,
-        coordinates: [center.lng, center.lat]
+        lng: center.lng,
+        lat: center.lat
       }
       setMarkers([...markers, newMarker])
     }

@@ -7,17 +7,17 @@ import { Button } from "@/components/ui/button"
 import { Marker } from '@/lib/types'
 
 interface SearchDialogProps {
-  onSearchResult: (result: { name: string; coordinates: [number, number] }) => void
+  onSearchResult: (result: { name: string; lng: number; lat: number }) => void
   open: boolean
   onClose: () => void
 }
 
 const mockPlaces: Marker[] = [
-  { name: "New York", coordinates: [-74.006, 40.7128] },
-  { name: "Los Angeles", coordinates: [-118.2437, 34.0522] },
-  { name: "Chicago", coordinates: [-87.6298, 41.8781] },
-  { name: "Houston", coordinates: [-95.3698, 29.7604] },
-  { name: "Phoenix", coordinates: [-112.0740, 33.4484] },
+  { name: "New York", lng: -74.006, lat: 40.7128 },
+  { name: "Los Angeles", lng: -118.2437, lat: 34.0522 },
+  { name: "Chicago", lng: -87.6298, lat: 41.8781 },
+  { name: "Houston", lng: -95.3698, lat: 29.7604 },
+  { name: "Phoenix", lng: -112.0740, lat: 33.4484 },
 ]
 
 export function SearchDialogComponent({ onSearchResult, open: openProp, onClose }: SearchDialogProps) {

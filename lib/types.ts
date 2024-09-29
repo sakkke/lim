@@ -1,5 +1,6 @@
 export interface Marker {
   id?: string;
   name: string;
-  coordinates: [number, number];
+  lng: number;
+  lat: number;
 }

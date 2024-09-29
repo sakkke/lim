@@ -60,7 +60,7 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
           <div className="space-y-2">
             <Label>Coordinates</Label>
             <p className="text-sm text-gray-500">
-              Longitude: {marker.coordinates[0].toFixed(6)}, Latitude: {marker.coordinates[1].toFixed(6)}
+              Longitude: {marker.lng.toFixed(6)}, Latitude: {marker.lat.toFixed(6)}
             </p>
           </div>
           <div className="flex justify-between">
