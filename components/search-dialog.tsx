@@ -68,15 +68,15 @@ export function SearchDialogComponent({ onSearchResult, open: openProp, onClose 
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Search Places</DialogTitle>
+          <DialogTitle>場所を検索</DialogTitle>
         </DialogHeader>
         <div className="flex items-center space-x-2">
           <Input
-            placeholder="Search..."
+            placeholder="検索..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button onClick={() => handleSearch(searchTerm)}>Search</Button>
+          <Button onClick={() => handleSearch(searchTerm)}>検索</Button>
         </div>
         <div className="mt-4 space-y-2">
           {results && results.map((place) => (
