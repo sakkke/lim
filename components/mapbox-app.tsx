@@ -21,9 +21,6 @@ export function MapboxAppComponent() {
       center: [-74.5, 40], // Default to New York
       zoom: 9
     })
-
-    // Add navigation control (zoom in/out)
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right')
   }, [])
 
   return (
