@@ -15,7 +15,6 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2Fra2tlIiwiYSI6ImNtMW4wMGp2dzBxNGQyanM4MTN6d
 interface Marker {
   id: string;
   name: string;
-  description: string;
   coordinates: [number, number];
 }
 
@@ -82,13 +81,12 @@ export function MapboxAppComponent() {
     setLoginOpen(false)
   }
 
-  const handleAddMarker = (name: string, description: string) => {
+  const handleAddMarker = (name: string) => {
     if (map.current) {
       const center = map.current.getCenter()
       const newMarker: Marker = {
         id: Date.now().toString(),
         name,
-        description,
         coordinates: [center.lng, center.lat]
       }
       setMarkers([...markers, newMarker])

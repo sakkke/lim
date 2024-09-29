@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
 interface NewMarkerDialogProps {
-  onAddMarker: (name: string, description: string) => void
+  onAddMarker: (name: string) => void
   open: boolean
   onClose: () => void
 }
@@ -15,7 +15,6 @@ interface NewMarkerDialogProps {
 export function NewMarkerDialogComponent({ onAddMarker, open: openProp, onClose }: NewMarkerDialogProps) {
   const [open, setOpen] = useState(openProp)
   const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
 
   useEffect(() => {
     setOpen(openProp)
@@ -29,10 +28,9 @@ export function NewMarkerDialogComponent({ onAddMarker, open: openProp, onClose 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onAddMarker(name, description)
+    onAddMarker(name)
     setOpen(false)
     setName('')
-    setDescription('')
   }
 
   return (
@@ -50,15 +48,6 @@ export function NewMarkerDialogComponent({ onAddMarker, open: openProp, onClose 
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter marker name"
               required
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
-            <Input
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Enter marker description"
             />
           </div>
           <Button type="submit">Add Marker</Button>
