@@ -279,12 +279,6 @@ export function MapboxAppComponent() {
     setNewOpen(false)
   }
 
-  const handleUpdateMarker = (updatedMarker: Marker) => {
-    setMarkers(markers.map(marker => 
-      marker.id === updatedMarker.id ? updatedMarker : marker
-    ))
-  }
-
   const handleDeleteMarker = async (markerId: string) => {
     try {
       const supabase = createClient()
@@ -313,7 +307,6 @@ export function MapboxAppComponent() {
       <MarkerPropertyDialogComponent
         marker={selectedMarker}
         onClose={() => setSelectedMarker(null)}
-        onUpdate={handleUpdateMarker}
         onDelete={handleDeleteMarker}
       />
       <UserPropertyDialog

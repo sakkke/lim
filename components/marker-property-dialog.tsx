@@ -10,11 +10,10 @@ import { Marker } from '@/lib/types'
 interface MarkerPropertyDialogProps {
   marker: Marker | null;
   onClose: () => void;
-  onUpdate: (updatedMarker: Marker) => void;
   onDelete: (markerId: string) => void;
 }
 
-export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDelete }: MarkerPropertyDialogProps) {
+export function MarkerPropertyDialogComponent({ marker, onClose, onDelete }: MarkerPropertyDialogProps) {
   const [name, setName] = useState('')
 
   useEffect(() => {
@@ -22,14 +21,6 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
       setName(marker.name)
     }
   }, [marker])
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    if (marker) {
-      onUpdate({ ...marker, name })
-    }
-    onClose()
-  }
 
   const handleDelete = () => {
     if (marker && marker.id) {
@@ -46,7 +37,7 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
         <DialogHeader>
           <DialogTitle>マーカーのプロパティ</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="name">名前</Label>
             <Input
@@ -64,7 +55,6 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
             </p>
           </div>
           <div className="flex justify-between">
-            <Button type="submit">マーカーを更新</Button>
             <Button type="button" variant="destructive" onClick={handleDelete}>マーカーを削除</Button>
           </div>
         </form>
