@@ -73,6 +73,7 @@ export function MapboxAppComponent() {
         const { data: markers } = await supabase
           .from('markers')
           .select()
+          .limit(1000)
         if (markers) {
           setMarkers(markers)
         }
