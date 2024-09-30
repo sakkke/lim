@@ -32,11 +32,11 @@ export default function UserPropertyDialog({ user, onClose, open: openProp }: Us
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>User Profile</DialogTitle>
+          <DialogTitle>ユーザープロフィール</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">名前</Label>
             <Input
               id="name"
               value={name}
