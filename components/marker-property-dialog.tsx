@@ -44,11 +44,11 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
     <Dialog open={!!marker} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Marker Properties</DialogTitle>
+          <DialogTitle>マーカーのプロパティ</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">名前</Label>
             <Input
               id="name"
               value={name}
@@ -58,14 +58,14 @@ export function MarkerPropertyDialogComponent({ marker, onClose, onUpdate, onDel
             />
           </div>
           <div className="space-y-2">
-            <Label>Coordinates</Label>
+            <Label>座標</Label>
             <p className="text-sm text-gray-500">
-              Longitude: {marker.lng.toFixed(6)}, Latitude: {marker.lat.toFixed(6)}
+              経度: {marker.lng.toFixed(6)}, 緯度: {marker.lat.toFixed(6)}
             </p>
           </div>
           <div className="flex justify-between">
-            <Button type="submit">Update Marker</Button>
-            <Button type="button" variant="destructive" onClick={handleDelete}>Delete Marker</Button>
+            <Button type="submit">マーカーを更新</Button>
+            <Button type="button" variant="destructive" onClick={handleDelete}>マーカーを削除</Button>
           </div>
         </form>
       </DialogContent>
