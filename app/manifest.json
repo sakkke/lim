@@ -1,6 +1,6 @@
 {
-  "short_name": "Lim",
-  "name": "Lim map",
+  "short_name": "LiveMap",
+  "name": "LiveMap",
   "icons": [
     { "src": "/favicon.ico", "type": "image/x-icon", "sizes": "16x16 32x32" },
     { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },

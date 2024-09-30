@@ -15,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Lim",
-  description: "Lim - Live map",
+  title: "LiveMap",
+  description: "LiveMap",
 };
 
 export default function RootLayout({
