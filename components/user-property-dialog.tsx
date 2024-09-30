@@ -40,7 +40,6 @@ export default function UserPropertyDialog({ user, onClose, open: openProp }: Us
             <Input
               id="name"
               value={name}
-              placeholder="Enter your name"
               required
               readOnly
             />
