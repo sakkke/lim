@@ -200,7 +200,11 @@ export function MapboxAppComponent() {
         break
       case 'plus':
         console.log('Plus button clicked')
-        setNewOpen(true)
+        if (user) {
+          setNewOpen(true)
+        } else {
+          setLoginOpen(true)
+        }
         break
       case 'user':
         console.log('User button clicked')
