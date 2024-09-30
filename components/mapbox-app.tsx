@@ -285,8 +285,21 @@ export function MapboxAppComponent() {
     ))
   }
 
-  const handleDeleteMarker = (markerId: string) => {
-    setMarkers(markers.filter(marker => marker.id !== markerId))
+  const handleDeleteMarker = async (markerId: string) => {
+    try {
+      const supabase = createClient()
+      await supabase
+        .from('markers')
+        .delete()
+        .eq('id', markerId)
+      const el = document.getElementById(`marker-${markerId}`)
+      if (el) {
+        el.remove()
+      }
+      setMarkers(markers.filter(marker => marker.id !== markerId))
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   return (
