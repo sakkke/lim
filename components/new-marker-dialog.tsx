@@ -37,20 +37,20 @@ export function NewMarkerDialogComponent({ onAddMarker, open: openProp, onClose 
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Marker</DialogTitle>
+          <DialogTitle>新しいマーカーの追加</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">名前</Label>
             <Input
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="Enter marker name"
+              placeholder="マーカー名を入力"
               required
             />
           </div>
-          <Button type="submit">Add Marker</Button>
+          <Button type="submit">マーカーを追加</Button>
         </form>
       </DialogContent>
     </Dialog>
